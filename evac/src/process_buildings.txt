@@ -1,0 +1,20 @@
+# process buildings using ogr2ogr 
+# clip buildings using demo area 
+
+# reproject layer to unprojected 
+# file location: C:\Users\noibar\Downloads\roadsevac_demo2_epsg26910.geojson
+cd C:\Users\noibar\Downloads
+ogr2ogr roads_evac4326.geojson -t_srs "EPSG:4326" roadsevac_demo2_epsg26910.geojson
+
+# clip - started 7:21 --> 3Gb of inputs --> 7:29 (~8 mins)
+ogr2ogr -clipsrc roads_evac4326.geojson clipped_ca_bld.geojson California.geojson
+
+# we can also clip to shapefile to run the following command using sqlite 
+ogr2ogr -clipsrc roads_evac4326.geojson clipped_ca_bld.shp California.geojson
+
+# convert building polygons to centroids 
+ogr2ogr -sql "SELECT ST_Centroid(geometry) as geom, *  FROM clipped_ca_bld" -dialect sqlite clipped_ca_bld_centroids.shp clipped_ca_bld.shp
+
+# try generating traffic with custom origins/destinations 
+cd C:\Users\noibar\Sumo\2022-08-31-18-59-16
+duarouter --trip-files osm.passenger.trips.xml --net-file osm.net.xml --output-file osm.passenger.rou.xml
