@@ -5,6 +5,49 @@
 
 import geopandas as gpd 
 import re
+import urllib.parse 
+import urllib.request
+
+def overpass_query(txt_path, save_api_path, save_xml_path, save_xml=True): 
+    '''
+    Given a pre-formated wkt string, creates api call to Overpass API
+        txt_path - path to file with  
+    '''
+
+    with open(txt_path, 'r') as f: 
+        text_coords = f.read()
+
+    # get coords from POLY 
+    try: 
+        s = re.findall('-?\d+.\d+', text_coords)
+        s = " ".join(s)
+        print(type(s))
+        # print(s)
+    except:
+        print('no pattern detected in .txt')
+
+
+    interpret = "http://overpass-api.de/api/interpreter?data="
+    output_format = "[out:xml][timeout:100];"
+    nodes = f'(node(poly:"{s}");'
+    ways = f'way(poly:"{s}");'
+    relations = f'relation(poly:"{s}");)'
+    res = ";out;>;out skel qt;"
+
+    url2 = output_format + nodes + ways + relations + res
+
+    # encode 
+    encoded = urllib.parse.quote_plus(url2)
+    print(interpret + encoded)
+
+    print(f'Saving Overpass API-call file to: {save_api_path}')
+    with open(save_api_path, 'w') as f: 
+        f.write(interpret + encoded)
+        f.close()
+
+    if save_xml: 
+        urllib.request.urlretrieve(interpret + encoded, filename=save_xml_path)
+
 
 def wkt_to_api(wkt):
     '''
@@ -101,4 +144,7 @@ if __name__=='__main__':
     #path_open = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/rwmp_study_area.geojson'
     path_open = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/roadsevac_demo2_epsg26910.geojson' 
     path_save = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/rwmp_study_area.txt'
+    save_api_path = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/overpass_api.txt'
+    save_xml_path = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/study_area_osm'
     prep_poly_geom(path_open, path_save, hull=False, reverse_coords=True)
+    overpass_query(path_save, save_api_path, save_xml_path)
