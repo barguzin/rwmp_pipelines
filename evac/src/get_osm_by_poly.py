@@ -50,6 +50,7 @@ def overpass_query(txt_path, save_api_path, save_xml_path, save_xml=True):
         f.close()
 
     if save_xml: 
+        print(f'Saving Overpass xml file to: {save_xml_path}')
         urllib.request.urlretrieve(interpret + encoded, filename=save_xml_path)
 
 
@@ -149,6 +150,6 @@ if __name__=='__main__':
     path_open = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/roadsevac_demo2_epsg26910.geojson' 
     path_save = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/rwmp_study_area.txt'
     save_api_path = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/overpass_api.txt'
-    save_xml_path = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/study_area_osm'
+    save_xml_path = 'C:/Users/barguzin/Documents/Github/rwmp_pipelines/study_area.osm.xml'
     prep_poly_geom(path_open, path_save, hull=False, reverse_coords=True)
     overpass_query(path_save, save_api_path, save_xml_path)
