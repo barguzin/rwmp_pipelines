@@ -11,7 +11,11 @@ import urllib.request
 def overpass_query(txt_path, save_api_path, save_xml_path, save_xml=True): 
     '''
     Given a pre-formated wkt string, creates api call to Overpass API
-        txt_path - path to file with  
+        txt_path - path to file with polygon coordinates 
+        save_api_path - path to save a string with Overpass API call 
+        save_xml_path - path to save xml with OpenStreetMap data xml 
+        save_xml - whether to save xml file (default=True)  
+
     '''
 
     with open(txt_path, 'r') as f: 
