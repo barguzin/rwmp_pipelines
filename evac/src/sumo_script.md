@@ -31,7 +31,7 @@ python "C:\Program Files (x86)\Eclipse\Sumo\tools\osmGet.py" --polygon evac_demo
 python "C:\Program Files (x86)\Eclipse\Sumo\tools\osmGet.py" --bbox "-119.731015, 34.445925, -119.704025, 34.465305"
 ```
 
-> this returns 504-Gateway Timeout (need to check if this is related to public Wi-Fi settings)
+> this returns 504-Gateway Timeout (need to check if this is related to public Wi-Fi settings). This works sometimes (different PC)
 
 5. Altenatively, use script that I wrote to download data using Overpass API that does not depend on SUMO API. **Make sure to change all of the paths in the python script.** 
 ```{bash}
@@ -41,9 +41,5 @@ python get_osm_by_poly.py
 
 6. Convert downloaded OSM data into a SUMO network (using recommended options)
 ```{bash}
-netconvert --osm-files berlin.osm.xml -o berlin.net.xml --type-files C:\ C:\Program Files (x86)\Eclipse\Sumo\data\typemap\osmNetconvert.typ.xml --geometry.remove --ramps.guess --junctions.join --tls.guess-signals --tls.discard-simple --tls.join --tls.default-type actuated
-```
-
-# convert donwloaded data into SUMO network (recommended options)
-# have to specify the typemap manually 
 netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files C:\Program Files (x86)\Eclipse\Sumo\data\typemap\osmNetconvert.typ.xml --geometry.remove --ramps.guess --junctions.join --tls.guess-signals --tls.discard-simple --tls.join --tls.default-type actuated
+```
