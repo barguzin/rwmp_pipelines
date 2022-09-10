@@ -105,6 +105,13 @@ def get_destinations(netfile, study_area, save_destination):
     print(df.shape)
     df.to_csv(save_destination)
 
+def short_path(origin_points, exits):
+    '''
+    Generate shortest path routes/trips from origins and destinations 
+    '''
+    return 0 
+
+
 def generate_OD(): 
     return 0      
 
