@@ -7,6 +7,7 @@ import geopandas as gpd
 import pandas as pd
 import sumolib 
 import osmnx as ox
+import numpy as np
 
 def get_origins(netfile, origin_points, save_origin): 
     '''
@@ -104,6 +105,23 @@ def get_destinations(netfile, study_area, save_destination):
     df = pd.DataFrame(list(zip(all_ids, all_dist, all_edges)), columns=['id', 'dist', 'from_to'])
     print(df.shape)
     df.to_csv(save_destination)
+
+def generate_s_curve(save_origin): 
+    '''
+    generate evacuation S-curve from Gaussian distribution
+    '''
+    # draw a sample from Gaussian distribution
+    mu, sd = (12,12,12), (1,2,3)
+    
+    # read csv 
+    df = pd.read_csv(save_origin)
+    n = df.shape[0]
+
+    # generate
+    norm = np.random.normal(loc = mu, scale = sd, size=(n, 3))
+
+
+
 
 def short_path(origin_points, exits):
     '''
