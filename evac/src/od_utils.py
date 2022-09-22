@@ -29,6 +29,10 @@ def get_origins(netfile, origin_points, save_origin):
 
     lng, lat = bld.geometry.x, bld.geometry.y 
 
+    # add function that saves original OSM nodes identifiers 
+    # using osmnx 
+    
+
     radius=50 # meters
 
     xlon, xlat = net.convertLonLat2XY(lng, lat)
