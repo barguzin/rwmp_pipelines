@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-09-23 15:11:47 by Eclipse SUMO polyconvert Version 1.14.1
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/polyconvertConfiguration.xsd">
+
+    <input>
+        <net-file value="study_area.net.xml"/>
+        <shapefile-prefixes value="bld_taz"/>
+        <shapefile.guess-projection value="true"/>
+        <shapefile.traditional-axis-mapping value="true"/>
+    </input>
+
+    <output>
+        <output-file value="converted.origs.xml"/>
+    </output>
+
+</configuration>
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <location netOffset="-249126.55,-3814936.77" convBoundary="-17.84,0.00,2421.62,2148.32" origBoundary="-119.730873,34.446002,-119.704720,34.465246" projParameter="+proj=utm +zone=11 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"/>
+
+    <poly id="0" type="unknown" color="51,128,255" fill="1" layer="-1.00" shape="1953.120509,7.372454 1601.407854,25.658231 1016.652261,60.392447 601.957353,86.248734 566.691991,90.559585 286.713644,132.378430 258.372062,139.938218 -17.836223,341.491735 52.735880,443.778732 151.022621,565.602974 1577.955207,2061.450118 1741.264937,2067.229089 2026.403388,2077.115128 2380.072672,2047.847677 2412.694650,1629.617209 2410.570068,1595.887982 2306.613091,860.372935 2214.499477,297.539969 2179.014652,202.738469 2006.163374,31.972005 1953.120509,7.372454"/>
+</additional>

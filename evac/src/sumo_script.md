@@ -46,6 +46,12 @@ netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files C:\
 
 7. Generate TAZs(polygons) by buffering exit roads (10m) and creating a convex hull of points for residential buildings. Then run polyconvert tool. 
 ```{bash}
-polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz.shp -o converted.exit.xml
+polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz_utm --shapefile.guess-projection --proj.utm --shapefile.traditional-axis-mapping -o converted.exit.xml
 ```
 > This fails on windows returning *pj_obj_create: C:\Users\barguzin\Anaconda3\Library\share\proj\proj.db lacks DATABASE.LAYOUT.VERSION.MAJOR / DATABASE.LAYOUT.VERSION.MINOR metadata. It comes from another PROJ installation.*. Trying this under WSL. Install SUMO on WSL next time. Or try drawing them.  
+
+> The command runs fine under the WSL 
+
+```{bash}
+polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz_utm --shapefile.guess-projection --proj.utm --shapefile.traditional-axis-mapping -o converted.exit.xml
+```
