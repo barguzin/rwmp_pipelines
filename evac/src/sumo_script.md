@@ -53,5 +53,16 @@ polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz_utm --shapefile.
 > The command runs fine under the WSL 
 
 ```{bash}
-polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz_utm --shapefile.guess-projection --proj.utm --shapefile.traditional-axis-mapping -o converted.exit.xml
+polyconvert -n study_area.net.xml --shapefile-prefixes bld_taz --shapefile.guess-projection  --shapefile.traditional-axis-mapping -o converted.origs.xml
+```
+
+8. Assign edges to each TAZ via SUMO Python tool. The paths are for Ubuntu on WSL. This generates file 'districts.taz.xml' 
+```{bash}
+cd /mnt/c/Users/barguzin/Documents/Github/rwmp_pipelines
+python3 /usr/share/sumo/tools/edgesInDistricts.py -n study_area.net.xml -t converted.exit.xml,converted.origs.xml
+```
+
+888. Try importing test OD matrix to see if it works. 
+```{bash}
+od2trips -n study_area.net.xml,districts.taz.xml -d od_test -o trips
 ```
