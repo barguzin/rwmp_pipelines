@@ -46,7 +46,7 @@ netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files C:\
 
 7. Generate TAZs(polygons) by buffering exit roads (10m) and creating a convex hull of points for residential buildings. Then run polyconvert tool. 
 ```{bash}
-polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz_utm --shapefile.guess-projection --proj.utm --shapefile.traditional-axis-mapping -o converted.exit.xml
+polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz --shapefile.guess-projection --shapefile.traditional-axis-mapping -o converted.exit.xml
 ```
 > This fails on windows returning *pj_obj_create: C:\Users\barguzin\Anaconda3\Library\share\proj\proj.db lacks DATABASE.LAYOUT.VERSION.MAJOR / DATABASE.LAYOUT.VERSION.MINOR metadata. It comes from another PROJ installation.*. Trying this under WSL. Install SUMO on WSL next time. Or try drawing them.  
 
@@ -61,6 +61,8 @@ polyconvert -n study_area.net.xml --shapefile-prefixes bld_taz --shapefile.guess
 cd /mnt/c/Users/barguzin/Documents/Github/rwmp_pipelines
 python3 /usr/share/sumo/tools/edgesInDistricts.py -n study_area.net.xml -t converted.exit.xml,converted.origs.xml
 ```
+
+> I dissolved the exits so that there is only one TAZ for all corresponding exits. Now the districts.taz.xml looks incorrect. Perhaps this happens because these TAZ overlap. Might need to run 'difference' before processing this further. 
 
 888. Try importing test OD matrix to see if it works. 
 ```{bash}
