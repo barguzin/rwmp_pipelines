@@ -83,7 +83,11 @@ python3 /usr/share/sumo/tools/edgesInDistricts.py -n study_area.net.xml -t conve
 
 > I dissolved the exits so that there is only one TAZ for all corresponding exits. Now the districts.taz.xml looks incorrect. Perhaps this happens because these TAZ overlap. Might need to run 'difference' before processing this further. 
 
-888. Try importing test OD matrix to see if it works. 
+9. Try importing test OD matrix to see if it works. 
 ```{bash}
 od2trips -n study_area.net.xml, districts.taz.xml -d od_test.od -o trips
 ```
+
+10. To-do: try running findAllRoutes.py and feed it 1) net file; 2) source-edges; 3) target-edge; outputting a file. See more info [here](https://github.com/eclipse/sumo/blob/main/tools/findAllRoutes.py)
+
+11. To-do: try running *evacuateAreas.py*. See more info [here](https://github.com/eclipse/sumo/blob/main/tools/evacuateAreas.py).
