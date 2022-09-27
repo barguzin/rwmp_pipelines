@@ -39,9 +39,18 @@ cd rwmp_pipelines
 python get_osm_by_poly.py 
 ```
 
+> plotting this network is troublesome (Goole wrote their own code of >300 lines). The PyPI package I tried (SumoNetVis) did not work with OSM formatted file. 
+
+
 6. Convert downloaded OSM data into a SUMO network (using recommended options)
 ```{bash}
-netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files C:\Program Files (x86)\Eclipse\Sumo\data\typemap\osmNetconvert.typ.xml --geometry.remove --ramps.guess --junctions.join --tls.guess-signals --tls.discard-simple --tls.join --tls.default-type actuated
+netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files "C:\Program Files (x86)\Eclipse\Sumo\data\typemap\osmNetconvert.typ.xml" --geometry.remove --ramps.guess --junctions.join --tls.guess-signals --tls.discard-simple --tls.join --tls.default-type actuated --remove-edges.isolated
+```
+
+> Or run this on WSL 
+
+```{bash}
+netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files /usr/share/sumo/data/typemap/osmNetconvert.typ.xml --geometry.remove --ramps.guess --junctions.join --tls.guess-signals --tls.discard-simple --tls.join --tls.default-type actuated --remove-edges.isolated
 ```
 
 7. Generate TAZs(polygons) by buffering exit roads (10m) and creating a convex hull of points for residential buildings. Then run polyconvert tool. 
@@ -56,6 +65,16 @@ polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz --shapefile.gues
 polyconvert -n study_area.net.xml --shapefile-prefixes bld_taz --shapefile.guess-projection  --shapefile.traditional-axis-mapping -o converted.origs.xml
 ```
 
+> Try combining two shapefiles and feed it to SUMO at once. 
+
+```{bash}
+polyconvert -n study_area.net.xml --shapefile-prefixes merged_taz --shapefile.guess-projection  --shapefile.traditional-axis-mapping -o converted.merged.xml
+
+python3 /usr/share/sumo/tools/edgesInDistricts.py -n study_area.net.xml -t converted.merged.xml
+```
+
+> Looks like this fixed the previous problem. 
+
 8. Assign edges to each TAZ via SUMO Python tool. The paths are for Ubuntu on WSL. This generates file 'districts.taz.xml' 
 ```{bash}
 cd /mnt/c/Users/barguzin/Documents/Github/rwmp_pipelines
@@ -66,5 +85,5 @@ python3 /usr/share/sumo/tools/edgesInDistricts.py -n study_area.net.xml -t conve
 
 888. Try importing test OD matrix to see if it works. 
 ```{bash}
-od2trips -n study_area.net.xml,districts.taz.xml -d od_test -o trips
+od2trips -n study_area.net.xml, districts.taz.xml -d od_test.od -o trips
 ```

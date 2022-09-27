@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2022-09-26 17:00:26 by Eclipse SUMO od2trips Version 1.14.1
+<!-- generated on 2022-09-26 17:52:22 by Eclipse SUMO od2trips Version 1.14.1
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/od2tripsConfiguration.xsd">
 
     <input>
-        <taz-files value="study_area.net.xml,districts.taz.xml"/>
-        <od-matrix-files value="od_test"/>
+        <taz-files value="districts.taz.xml"/>
+        <od-matrix-files value="od_test.od"/>
     </input>
 
     <output>
-        <output-file value="trips"/>
+        <output-file value="trips.xml"/>
     </output>
 
 </configuration>
