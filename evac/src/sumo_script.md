@@ -90,4 +90,10 @@ od2trips -n study_area.net.xml, districts.taz.xml -d od_test.od -o trips
 
 10. To-do: try running findAllRoutes.py and feed it 1) net file; 2) source-edges; 3) target-edge; outputting a file. See more info [here](https://github.com/eclipse/sumo/blob/main/tools/findAllRoutes.py)
 
+```{bash}
+python "C:/Program Files (x86)/Eclipse/Sumo/tools/findAllRoutes.py" -n study_area.net.xml -o routes.xml -s -16262970\#1,-679909983\#0,616970620,16253433\#1 -t "-627887423#5","-886568238#0","627887423#4","-16263932#1"
+```
+
+> Does not work (something with the format of source edge_id)
+
 11. To-do: try running *evacuateAreas.py*. See more info [here](https://github.com/eclipse/sumo/blob/main/tools/evacuateAreas.py).
