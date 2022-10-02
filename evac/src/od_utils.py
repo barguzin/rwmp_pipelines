@@ -26,6 +26,7 @@ def get_origins(netfile, origin_points, save_origin):
     all_dist = []
     all_edges = []
     all_ids = []
+    osm_ids = []
 
     lng, lat = bld.geometry.x, bld.geometry.y 
 
@@ -37,7 +38,9 @@ def get_origins(netfile, origin_points, save_origin):
 
     xlon, xlat = net.convertLonLat2XY(lng, lat)
 
-    for x,y in zip(xlon, xlat): 
+    osm_id = bld['osm_id'].values.tolist()
+
+    for x,y,o in zip(xlon, xlat, osm_id): 
         edges = net.getNeighboringEdges(x, y, radius)
 
         if len(edges) > 0: 
@@ -47,11 +50,12 @@ def get_origins(netfile, origin_points, save_origin):
             all_dist.append(dist)
             all_edges.append(closestEdge)
             all_ids.append(closestEdge.getID())
+            osm_ids.append(o)
 
     
     # save to file
     # convert to pandas 
-    df = pd.DataFrame(list(zip(all_ids, all_dist, all_edges)), columns=['id', 'dist', 'from_to'])
+    df = pd.DataFrame(list(zip(all_ids, all_dist, all_edges, osm_ids)), columns=['id', 'dist', 'from_to', 'osm_id'])
     print(df.shape)
     df.to_csv(save_origin)
 

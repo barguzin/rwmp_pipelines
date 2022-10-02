@@ -1,0 +1,8 @@
+<configuration>
+
+    <input>
+        <taz-files value="/mnt/c/Users/barguzin/Documents/Github/rwmp_pipelines/merged_taz.shp"/>
+        <od-matrix-files value="od_test.od"/>
+    </input>
+
+</configuration>

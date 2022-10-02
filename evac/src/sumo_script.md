@@ -53,7 +53,7 @@ netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files "C:
 netconvert --osm-files study_area.osm.xml -o study_area.net.xml --type-files /usr/share/sumo/data/typemap/osmNetconvert.typ.xml --geometry.remove --ramps.guess --junctions.join --tls.guess-signals --tls.discard-simple --tls.join --tls.default-type actuated --remove-edges.isolated
 ```
 
-7. Generate TAZs(polygons) by buffering exit roads (10m) and creating a convex hull of points for residential buildings. Then run polyconvert tool. 
+7. Generate TAZs(polygons) by buffering exit roads (10m) and creating a convex hull of points for residential buildings. Then run polyconvert tool. As far as I understand there is no need to run the polyconvert twice. From examples and tutorials online those could be coming from one file. 
 ```{bash}
 polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz --shapefile.guess-projection --shapefile.traditional-axis-mapping -o converted.exit.xml
 ```
@@ -65,7 +65,7 @@ polyconvert -n study_area.net.xml --shapefile-prefixes exit_taz --shapefile.gues
 polyconvert -n study_area.net.xml --shapefile-prefixes bld_taz --shapefile.guess-projection  --shapefile.traditional-axis-mapping -o converted.origs.xml
 ```
 
-> Try combining two shapefiles and feed it to SUMO at once. 
+> Try combining two shapefiles and feed it to SUMO at once. And assign edges to TAZs. 
 
 ```{bash}
 polyconvert -n study_area.net.xml --shapefile-prefixes merged_taz --shapefile.guess-projection  --shapefile.traditional-axis-mapping -o converted.merged.xml
@@ -73,27 +73,31 @@ polyconvert -n study_area.net.xml --shapefile-prefixes merged_taz --shapefile.gu
 python3 /usr/share/sumo/tools/edgesInDistricts.py -n study_area.net.xml -t converted.merged.xml
 ```
 
-> Looks like this fixed the previous problem. 
-
-8. Assign edges to each TAZ via SUMO Python tool. The paths are for Ubuntu on WSL. This generates file 'districts.taz.xml' 
+<!-- 8. Assign edges to each TAZ via SUMO Python tool. The paths are for Ubuntu on WSL. This generates file 'districts.taz.xml' 
 ```{bash}
 cd /mnt/c/Users/barguzin/Documents/Github/rwmp_pipelines
 python3 /usr/share/sumo/tools/edgesInDistricts.py -n study_area.net.xml -t converted.exit.xml,converted.origs.xml
-```
+``` -->
 
 > I dissolved the exits so that there is only one TAZ for all corresponding exits. Now the districts.taz.xml looks incorrect. Perhaps this happens because these TAZ overlap. Might need to run 'difference' before processing this further. 
 
 9. Try importing test OD matrix to see if it works. 
 ```{bash}
-od2trips -n study_area.net.xml, districts.taz.xml -d od_test.od -o trips
+od2trips -c od2trips.config.xml -n study_area.net.xml, districts.taz.xml -d od_test.od -o trips
 ```
 
-10. To-do: try running findAllRoutes.py and feed it 1) net file; 2) source-edges; 3) target-edge; outputting a file. See more info [here](https://github.com/eclipse/sumo/blob/main/tools/findAllRoutes.py)
+10. To-do: try running findAllRoutes.py and feed it 1) net file; 2) source-edges; 3) target-edge; outputting a file. See more info [here](https://github.com/eclipse/sumo/blob/main/tools/findAllRoutes.py). 
 
+If running on a Windows machine. 
 ```{bash}
 python "C:/Program Files (x86)/Eclipse/Sumo/tools/findAllRoutes.py" -n study_area.net.xml -o routes.xml -s -16262970\#1,-679909983\#0,616970620,16253433\#1 -t "-627887423#5","-886568238#0","627887423#4","-16263932#1"
 ```
 
-> Does not work (something with the format of source edge_id)
+If running on a Linux machine. 
+```{bash}
+python3 /usr/share/sumo/tools/findAllRoutes.py -n study_area.net.xml -o routes.xml -s "-16262970#1,-679909983#0,616970620,16253433#1" -t ["-627887423#5","-886568238#0","627887423#4","-16263932#1"]
+```
+
+> I tried running this under different configurations, but was not successful. There is something wrong with how the list argument is parsed by argparser. When feeding the comma separated list of source edges in double quotes it would return 'expected one argument error". If I were to add square brackets it would read it fine but return KeyError when subsetting the inputted net file. 
 
 11. To-do: try running *evacuateAreas.py*. See more info [here](https://github.com/eclipse/sumo/blob/main/tools/evacuateAreas.py).
