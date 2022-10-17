@@ -25,7 +25,7 @@ ogr2ogr evac_demo.geojson -t_srs "EPSG:4326" roadsevac_demo2_epsg26910.geojson
 cd sumo_sim/data
 python "C:\Program Files (x86)\Eclipse\Sumo\tools\osmGet.py" --polygon evac_demo.geojson 
 ```
-> this fucker returns 400-Bad Request with polygon. Try bbox: 
+> this tool returns 400-Bad Request with polygon. Try bbox: 
 
 ```{bash}
 python "C:\Program Files (x86)\Eclipse\Sumo\tools\osmGet.py" --bbox "-119.731015, 34.445925, -119.704025, 34.465305"
